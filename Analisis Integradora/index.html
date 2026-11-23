@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica Integradora — Análisis y Visualización de Datos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            background-color: #eef2f6;
+            color: #1e293b;
+            padding: 30px 15px;
+        }
+        .contenedor {
+            max-width: 860px;
+            margin: auto;
+        }
+        .portada {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            border-bottom: 5px solid #2563eb;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            margin-bottom: 24px;
+        }
+        .portada h1 {
+            margin: 0 0 12px 0;
+            font-size: 1.8rem;
+            color: #ffffff;
+        }
+        .portada p {
+            margin: 6px 0;
+            font-size: 1rem;
+            color: #cbd5e1;
+        }
+
+        /* Desplegable principal */
+        details.subseccion {
+            margin-bottom: 16px;
+            border: 1px solid #0f172a;
+            border-radius: 8px;
+            background-color: #ffffff;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        details.subseccion > summary {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #ffffff;
+            padding: 16px 20px;
+            background-color: #0f172a;
+            border-left: 5px solid #2563eb;
+            cursor: pointer;
+            user-select: none;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+        details.subseccion > summary:hover {
+            background-color: #1e293b;
+        }
+        .contenido-desplegable {
+            padding: 22px 25px;
+            border-top: 1px solid #cbd5e1;
+        }
+
+        /* Sección fija enumerada (no desplegable) */
+        .seccion-fija {
+            margin-bottom: 16px;
+            border: 1px solid #0f172a;
+            border-radius: 8px;
+            background-color: #ffffff;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        .titulo-fijo {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #ffffff;
+            padding: 16px 20px;
+            background-color: #0f172a;
+            border-left: 5px solid #2563eb;
+        }
+
+        .bloque-pregunta {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+        }
+        .bloque-pregunta:last-child {
+            margin-bottom: 0;
+        }
+        .bloque-pregunta p {
+            color: #334155;
+            font-size: 0.96rem;
+            line-height: 1.55;
+            margin-bottom: 6px;
+        }
+        .bloque-pregunta p:last-child {
+            margin-bottom: 0;
+        }
+        .bloque-pregunta strong {
+            color: #0f172a;
+        }
+        .bloque-pregunta a {
+            color: #2563eb;
+            word-break: break-all;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .bloque-pregunta a:hover {
+            text-decoration: underline;
+        }
+        .contenido-desplegable h3 {
+            margin: 20px 0 12px 0;
+            font-size: 1.05rem;
+            color: #1e3a8a;
+        }
+
+        /* Subdesplegables */
+        details.kpi-sub {
+            margin-bottom: 10px;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid #2563eb;
+            border-radius: 6px;
+            background-color: #f8fafc;
+            overflow: hidden;
+        }
+        details.kpi-sub > summary {
+            font-size: 0.98rem;
+            font-weight: bold;
+            color: #0f172a;
+            padding: 12px 16px;
+            background-color: #e2e8f0;
+            cursor: pointer;
+            user-select: none;
+            outline: none;
+            transition: background 0.25s ease;
+        }
+        details.kpi-sub > summary:hover {
+            background-color: #cbd5e1;
+        }
+        .contenido-kpi {
+            padding: 14px 18px;
+            border-top: 1px solid #cbd5e1;
+            background-color: #ffffff;
+        }
+        .contenido-kpi p {
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.55;
+            margin-bottom: 8px;
+        }
+        .contenido-kpi p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Figuras en Resultados */
+        .figura-resultado {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 14px;
+            text-align: center;
+        }
+        .figura-resultado img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+            margin: 0 auto;
+        }
+        .pie-figura {
+            margin-top: 10px;
+            color: #334155;
+            font-size: 0.92rem;
+            text-align: left;
+        }
+        .pie-figura strong {
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+
+    <!-- Punto 1: Portada -->
+    <div class="portada">
+        <h1>Práctica Integradora del Curso</h1><br>
+        <p><strong>Curso:</strong> Análisis y Visualización de Datos</p>
+        <p><strong>Autor:</strong> Axel Said Zempoaltecatl Meza</p>
+        <p><strong>Fecha:</strong> 23 de Noviembre del 2026</p>
+        <p><strong>Grupo:</strong> 6952</p>
+    </div>
+
+    <!-- Punto 2: Pregunta y KPIS -->
+    <details class="subseccion">
+        <summary>1. Pregunta de Negocio y KPIs Definidos</summary>
+        <div class="contenido-desplegable">
+            <div class="bloque-pregunta">
+                <p><strong>Pregunta de negocio:</strong> ¿Qué categorías de producto y regiones geográficas concentran los mayores ingresos entre 2024 y 2025, y cómo debe priorizarse la distribución de inventario y la estrategia comercial para mejorar el desempeño general?</p>
+            </div>
+
+            <div class="bloque-pregunta">
+                <p><strong>Decisión que organiza el análisis:</strong> Determinar cómo asignar el inventario y enfocar los esfuerzos comerciales entre categorías de producto y regiones geográficas, identificando qué líneas sostienen los ingresos y en qué zonas existen brechas o oportunidades de crecimiento entre 2024 y 2025.</p>
+            </div>
+
+            <div class="bloque-pregunta">
+                <p><strong>Usuario principal del tablero:</strong> Gerencia Comercial y Dirección de Ventas, responsables de la planeación comercial, asignación de recursos por región/categoría y seguimiento del desempeño de ventas.</p>
+            </div>
+
+            <h3>Indicadores Clave de Desempeño (KPIs)</h3>
+
+            <details class="kpi-sub">
+                <summary>RESUMEN</summary>
+                <div class="contenido-kpi">
+                    <p><strong>• Ventas:</strong> Suma del importe total de ventas facturadas en el periodo analizado</p>
+                    <p><strong>• Tickets:</strong> Total de transacciones o tickets únicos registrados</p>
+                    <p><strong>• Ticket Promedio:</strong> Importe promedio generado por cada ticket</p>
+                    <p><strong>• Ventas por Fecha:</strong> Importe total de ventas por fechas </p>
+                </div>
+            </details>
+
+            <details class="kpi-sub">
+                <summary>POR REGION Y CATEGORIA</summary>
+                <div class="contenido-kpi">
+                    <p><strong>• Ventas por Región:</strong> Suma del importe de ventas agrupado por zona geográfica para comparar el rendimiento entre regiones</p>
+                    <p><strong>• Ventas por Categoría:</strong> Distribución del importe de ventas y su participación porcentual según la categoría de producto</p>
+                    <p><strong>• Cantidad Total y Ventas por Producto:</strong> Total de unidades vendidas e importe acumulado desglosado por cada producto</p>
+                </div>
+            </details>
+
+            <details class="kpi-sub">
+                <summary>TENDENCIA TEMPORAL</summary>
+                <div class="contenido-kpi">
+                    <p><strong>• Ventas por NombreMes y Anio:</strong> Evolución del importe de ventas a lo largo de los meses y años para observar el comportamiento temporal y la estacionalidad</p>
+                    <p><strong>• Var % Año:</strong> Variación porcentual de las ventas respecto al periodo anual anterior para medir el crecimiento o cambio interanual</p>
+                </div>
+            </details>
+
+            <details class="kpi-sub">
+                <summary>ASOCIACION Y HALLAZGOS</summary>
+                <div class="contenido-kpi">
+                    <p><strong>• Ventas por Region y Categoria:</strong> Cruce de las ventas por región y categoría de producto para contrastar su peso relativo en cada zona</p>
+                    <p><strong>• Suma de Cantidad y Suma de Importe por Cliente:</strong> Relación entre el volumen de unidades acumuladas y el importe total generado por cada cliente</p>
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- Punto 3: Metodología -->
+    <details class="subseccion">
+        <summary>2. Metodología</summary>
+        <div class="contenido-desplegable">
+
+            <div class="bloque-pregunta">
+                <p><strong>Fuentes de datos:</strong> Archivos CSV con nombres: dim_ventas, dim_producto, dim_fecha y dim_cliente generados como parte de una actividad previa y complementaria</p>
+            </div>
+
+            <div class="bloque-pregunta">
+                <p><strong>Pasos de Power Query:</strong> Depuración de registros, tipado de columnas, normalización de campos de fecha y región, y preparación de tablas para el modelo</p>
+            </div>
+
+            <details class="kpi-sub">
+                <summary>Diagrama del Modelo</summary>
+                <div class="contenido-kpi">
+                    <p><strong>• Estructura relacional:</strong> Modelo de datos que conecta la tabla de hechos de ventas con las tablas dimensionales mediante llaves relacionadas</p>
+                    <img src="imagenes/diagrama.png" alt="Diagrama del modelo de datos en Power BI" style="max-width: 100%; height: auto; border-radius: 6px; margin-top: 8px;">
+                </div>
+            </details>
+
+            <div class="bloque-pregunta">
+                <p><strong>Lista de medidas DAX:</strong></p>
+                <p><strong>• Ventas:</strong> Calcula el importe total facturado en el periodo</p>
+                <p><strong>• Ventas Año Anterior:</strong> Calcula el importe de ventas correspondiente al año anterior para comparar periodos</p>
+                <p><strong>• Tickets:</strong> Cuenta los tickets o transacciones únicas registradas</p>
+                <p><strong>• Ticket Promedio:</strong> Calcula el promedio del importe generado por cada ticket</p>
+                <p><strong>• Var % Año:</strong> Calcula la variación porcentual de las ventas respecto al año anterior</p>
+            </div>
+
+        </div>
+    </details>
+
+    <!-- Punto 4: Resultados -->
+    <details class="subseccion">
+        <summary>3. Resultados</summary>
+        <div class="contenido-desplegable">
+
+            <div class="bloque-pregunta">
+                <p>A continuación se muestran los resultados obtenidos con las medidas DAX y los KPI definidos en el informe de Power BI.</p>
+            </div>
+
+            <details class="kpi-sub">
+                <summary>RESUMEN</summary>
+                <div class="contenido-kpi">
+                    <div class="figura-resultado">
+                        <img src="imagenes/pagina1.png" alt="Captura de la página 1: RESUMEN">
+                        <p class="pie-figura"><strong>Figura 1.</strong> Página 1: RESUMEN — Tarjetas de Ticket Promedio, Tickets y Ventas junto con la evolución de ventas por fecha</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="kpi-sub">
+                <summary>POR REGION Y CATEGORIA</summary>
+                <div class="contenido-kpi">
+                    <div class="figura-resultado">
+                        <img src="imagenes/pagina2.png" alt="Captura de la página 2: POR REGION Y CATEGORIA">
+                        <p class="pie-figura"><strong>Figura 2.</strong> Página 2: POR REGION Y CATEGORIA — Ventas por región, participación por categoría y tabla de cantidad y ventas por producto</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="kpi-sub">
+                <summary>TENDENCIA TEMPORAL</summary>
+                <div class="contenido-kpi">
+                    <div class="figura-resultado">
+                        <img src="imagenes/pagina3.png" alt="Captura de la página 3: TENDENCIA TEMPORAL">
+                        <p class="pie-figura"><strong>Figura 3.</strong> Página 3: TENDENCIA TEMPORAL — Comportamiento de ventas por mes y año e indicador de variación porcentual anual</p>
+                    </div>
+                </div>
+            </details>
+
+            <details class="kpi-sub">
+                <summary>ASOCIACION Y HALLAZGOS</summary>
+                <div class="contenido-kpi">
+                    <div class="figura-resultado">
+                        <img src="imagenes/pagina4.png" alt="Captura de la página 4: ASOCIACION Y HALLAZGOS">
+                        <p class="pie-figura"><strong>Figura 4.</strong> Página 4: ASOCIACION Y HALLAZGOS — Ventas por región y categoría, relación entre cantidad e importe por cliente y hallazgos clave</p>
+                    </div>
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- Punto 5: Análisis de asociación/correlación -->
+    <details class="subseccion">
+        <summary>4. Análisis de Asociación y Correlación</summary>
+        <div class="contenido-desplegable">
+            <div class="bloque-pregunta">
+                <p><strong>Asociación entre región y categoría:</strong> La categoría Cómputo concentra la mayor parte de los ingresos en todas las regiones (más del 89% de participación en cada zona), destacando la región Centro como líder en ventas totales</p>
+                <p><strong>Relación entre cantidad e importe por cliente:</strong> A mayor volumen acumulado de unidades compradas tiende a incrementarse el importe total generado por cliente</p>
+            </div>
+            <div class="bloque-pregunta">
+                <p><strong>Correlación ≠ causalidad:</strong> Aunque se observa una tendencia positiva entre el volumen de unidades y el importe de compra, la correlación no implica causalidad directa; los datos analizados son sintéticos y no contemplan variables externas como promociones, precios diferenciados, costos de envío o tiempos de logística no medidos</p>
+            </div>
+        </div>
+    </details>
+
+    <!-- Punto 6: Conclusiones, recomendaciones y limitaciones -->
+    <details class="subseccion">
+        <summary>5. Conclusiones, Recomendaciones y Limitaciones</summary>
+        <div class="contenido-desplegable">
+            <div class="bloque-pregunta">
+                <p><strong>Conclusiones y recomendaciones:</strong></p>
+                <p><strong>• Priorizar inventario de Cómputo:</strong> Mantener disponibilidad alta en equipos de cómputo por su peso dominante en los ingresos, sin descuidar el catálogo de Accesorios como complemento de venta</p>
+                <p><strong>• Reforzar la región Centro y atender brechas:</strong> Asegurar capacidad operativa en la región Centro y evaluar estrategias comerciales en zonas con menor participación, como el Sur</p>
+                <p><strong>• Planificar según estacionalidad y crecimiento interanual:</strong> Considerar la evolución mensual y la variación anual para anticipar picos de demanda y abastecimiento</p>
+                <p><strong>• Dar seguimiento a clientes de alto volumen:</strong> Monitorear a los clientes con mayor cantidad e importe acumulado para retención comercial</p>
+            </div>
+            <div class="bloque-pregunta">
+                <p><strong>Limitaciones:</strong> El conjunto de datos es sintético y carece de variables operativas, financieras y logísticas adicionales (como márgenes reales, costos de inventario o factores externos de mercado), por lo que los resultados deben interpretarse como apoyo descriptivo y no como evidencia causal</p>
+            </div>
+        </div>
+    </details>
+
+    <!-- Punto 7: Archivo .pbix -->
+    <div class="seccion-fija">
+        <div class="titulo-fijo">6. Archivo .pbix</div>
+        <div class="contenido-desplegable">
+            <div class="bloque-pregunta">
+                <p><strong>Enlace de descarga (Google Drive):<br></strong> <a href="https://drive.google.com/drive/folders/1R9mTHEPiMUzGZfOHhzRv-OsG_MlEZJmQ?usp=sharing" target="_blank" rel="noopener noreferrer">https://drive.google.com/drive/folders/1R9mTHEPiMUzGZfOHhzRv-OsG_MlEZJmQ?usp=sharing</a></p><br>
+                <p> En este enlace podra encontrar el archivo pbix con todo el contenido previamente presentado y explicado, para su descarga y visualizacion</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
